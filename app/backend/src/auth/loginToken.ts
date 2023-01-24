@@ -19,6 +19,6 @@ export const tokenVerify = (token: string): IToken => {
     return userDecoded as IToken;
   } catch (error) {
     console.log(error);
-    return { email: 'Token must be a valid token' };
+    return { email: 'Invalid token' };
   }
 };
