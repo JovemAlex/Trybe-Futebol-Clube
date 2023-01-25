@@ -18,4 +18,21 @@ export default class Matches {
 
     return { status: 200, matches, isError: false };
   }
+
+  public async matchesByProgress(inProgress: boolean) {
+    const matches = await this._model.findAll({
+      include: [
+        { model: Team, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Team, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+
+      where: { inProgress },
+    });
+
+    if (!matches) {
+      return { status: 404, message: 'Matches not found', isError: true };
+    }
+
+    return { status: 200, matches, isError: false };
+  }
 }
