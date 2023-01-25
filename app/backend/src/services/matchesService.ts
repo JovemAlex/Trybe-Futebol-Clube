@@ -35,4 +35,28 @@ export default class Matches {
 
     return { status: 200, matches, isError: false };
   }
+
+  public createMatches = async (
+    homeTeamId: number,
+    homeTeamGoals: number,
+    awayTeamId: number,
+    awayTeamGoals: number,
+  ) => {
+    const homeTeam = await Team.findByPk(homeTeamId);
+    const awayTeam = await Team.findByPk(awayTeamId);
+
+    if (!homeTeam || !awayTeam) {
+      return { status: 404, message: 'There is no team with such id!', isError: true };
+    }
+
+    const newMatchCreated = await Match.create({
+      homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: true,
+    });
+
+    if (!newMatchCreated) {
+      return { status: 500, message: 'Internal Server Error', isError: true };
+    }
+
+    return { status: 201, newMatchCreated, isError: false };
+  };
 }
