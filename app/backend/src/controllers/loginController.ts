@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LoginService, { tokenServiceValidation } from '../services/loginService';
+import LoginService from '../services/loginService';
 
 const loginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -12,16 +12,16 @@ const loginController = async (req: Request, res: Response) => {
   return res.status(status).json({ token });
 };
 
-const tokenValidation = async (req: Request, res: Response) => {
-  const { authorization } = req.headers;
+// const tokenValidation = async (req: Request, res: Response) => {
+//   const { authorization } = req.headers;
 
-  if (!authorization) res.status(400).json({ response: 'Token inexistente' });
+//   if (!authorization) res.status(400).json({ response: 'Token inexistente' });
 
-  const { status, message, isError } = await tokenServiceValidation(authorization as string);
+//   const { status, message, isError } = await tokenServiceValidation(authorization as string);
 
-  if (isError) return res.status(status).json({ message });
+//   if (isError) return res.status(status).json({ message });
 
-  return res.status(status).json({ role: message });
-};
+//   return res.status(status).json({ role: message });
+// };
 
-export default { loginController, tokenValidation };
+export default { loginController };
