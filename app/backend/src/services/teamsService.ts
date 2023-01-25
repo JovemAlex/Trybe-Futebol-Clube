@@ -12,4 +12,14 @@ export default class Teams {
 
     return { status: 200, teamsExists, isError: false };
   }
+
+  public async getById(id: number) {
+    const teamExist = await this._model.findByPk(id);
+
+    if (!teamExist) {
+      return { status: 404, message: 'Team not found', isError: true };
+    }
+
+    return { status: 200, teamExist, isError: false };
+  }
 }

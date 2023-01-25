@@ -13,4 +13,15 @@ export default class TeamController {
 
     return res.status(status).json(teamsExists);
   };
+
+  public getTeamById: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+    const { status, message, teamExist, isError } = await this._service.getById(Number(id));
+
+    if (isError) {
+      return res.status(status).json({ message });
+    }
+
+    return res.status(status).json(teamExist);
+  };
 }
