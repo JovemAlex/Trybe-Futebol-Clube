@@ -38,25 +38,28 @@ export default class Matches {
 
   public createMatches = async (
     homeTeamId: number,
-    homeTeamGoals: number,
     awayTeamId: number,
+    homeTeamGoals: number,
     awayTeamGoals: number,
   ) => {
-    const homeTeam = await Team.findByPk(homeTeamId);
-    const awayTeam = await Team.findByPk(awayTeamId);
-
-    if (!homeTeam || !awayTeam) {
-      return { status: 404, message: 'There is no team with such id!', isError: true };
-    }
-
-    const newMatchCreated = await Match.create({
+    const match = await Match.create({
       homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: true,
     });
 
-    if (!newMatchCreated) {
-      return { status: 500, message: 'Internal Server Error', isError: true };
+    if (!match) {
+      return { status: 500, message: 'Something went wrong', isError: true };
     }
 
-    return { status: 201, newMatchCreated, isError: false };
+    return { status: 201, message: match, isError: false };
+  };
+
+  public matchFinished = async (id: string) => {
+    await Match.update({ inProgress: false }, { where: { id } });
+    return { status: 200, message: 'Finished' };
+  };
+
+  public updateMatch = async (id: string, homeTeamGoals: number, awayTeamGoals: number) => {
+    await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return { status: 200, message: 'Updated' };
   };
 }

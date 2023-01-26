@@ -19,6 +19,6 @@ export const tokenVerify = (authorization: string): IToken => {
     return payload as IToken;
   } catch (error) {
     console.log(error);
-    return { email: 'Invalid token' };
+    return { email: 'Token must be a valid token' };
   }
 };

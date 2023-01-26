@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import Matches from '../services/matchesService';
-import { tokenVerify } from '../auth/loginToken';
+// import { tokenVerify } from '../auth/loginToken';
 
 export default class MatchesController {
   constructor(private _service = new Matches()) { }
@@ -27,22 +27,32 @@ export default class MatchesController {
   };
 
   public createMatches: RequestHandler = async (req, res) => {
-    const token = req.headers.authorization;
-    const { email } = tokenVerify(token as string);
-
-    if (email === 'Invalid Token') {
-      return res.status(401).json({ message: 'Token must be a valid token' });
-    }
-
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
 
-    const { status, message, isError, newMatchCreated } = await this._service
+    const { status, message, isError } = await this._service
       .createMatches(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
 
     if (isError) {
       return res.status(status).json({ message });
     }
 
-    return res.status(status).json(newMatchCreated);
+    return res.status(status).json(message);
+  };
+
+  public matchFinished: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+
+    const { status, message } = await this._service.matchFinished(id);
+
+    return res.status(status).json({ message });
+  };
+
+  public updateMatch: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    const { status, message } = await this._service.updateMatch(id, homeTeamGoals, awayTeamGoals);
+
+    return res.status(status).json({ message });
   };
 }

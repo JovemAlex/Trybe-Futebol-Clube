@@ -21,7 +21,9 @@ const LoginService = async (email: string, password: string) => {
 export const tokenServiceValidation = async (token: string) => {
   const { email }: IToken = tokenVerify(token);
 
-  if (email === 'Invalid Token') return { status: 401, message: email, isError: true };
+  if (email === 'Token must be a valid token') {
+    return { status: 401, message: email, isError: true };
+  }
 
   const user = await User.findOne({ where: { email } });
 
