@@ -9,7 +9,7 @@ const jwtConfig: SignOptions = {
 const secret: string = process.env.JWT_SECRET || 'jwt_secret';
 
 export const createNewToken = (user: IToken): string => {
-  const token = sign({ data: user }, secret, jwtConfig);
+  const token = sign(user, secret, jwtConfig);
   return token;
 };
 
