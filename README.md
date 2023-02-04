@@ -2,7 +2,7 @@
 <p><em>Projeto desenvolvido com os conhecimentos adquirido no módulo de Back-End da <a href="https://www.betrybe.com/" alt="Site da Trybe">Trybe!</a></em></p>
 
 <h3>Objetivo:</h3>
-<p>A proposta desse projeto era a criação de uma API que deveria ser consumida por um front-end já disponibilizado, para tanto, a criação de um docker-compose será de suma importância!</p>
+<p>A proposta desse projeto era a criação de uma API que deveria ser consumida por um front-end já disponibilizado.</p>
 
 <h3>Habilidades desenvolvidas com o projeto:</h3>
 <ul>
